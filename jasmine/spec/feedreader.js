@@ -100,21 +100,29 @@ $(function() {
         
 
     describe('New Feed Selection',function() {
-        /* TODO: Write a test that ensures when a new feed is loaded
+        /* Test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
          */
+        let firstFeedLoad;
+        let secondFeedLoad;
+
         beforeEach(function(done) {
             setTimeout(function() {
+              loadFeed(0, function() {
+                firstFeedLoad = document.querySelector('.feed');
+                done();
+              });
+
               loadFeed(1, function() {
+                secondFeedLoad = document.querySelector('.feed');
                 done();
               });
             }, 100);
           });
 
-        it('should change the content',function(){
-            
+        it('loadFeed() should actually change the content', function(done){
+            expect(firstFeedLoad !== secondFeedLoad).toBe(true);
+            done();
         });
     });
-
 }());
