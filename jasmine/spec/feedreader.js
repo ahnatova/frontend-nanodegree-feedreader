@@ -29,10 +29,10 @@ $(function() {
          * and that the URL is not empty.
          */
         it('URL is defined and it contains a URL', function() {
-            allFeeds.forEach(feed => {
+            for(const feed of allFeeds) {
                 expect(feed.url).toBeDefined();
                 expect(feed.url).toContain('http://');
-            });
+            };
         });
 
 
@@ -53,11 +53,10 @@ $(function() {
         /* Test that ensures the menu element is
          * hidden by default.
          */
-        const bodyEl = document.querySelector('body');
         const menuEl = document.querySelector('.menu-icon-link')
 
         it('menu element is hidden by default',function() {
-            expect(bodyEl.className).toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
          /* Test that ensures the menu changes
@@ -67,9 +66,9 @@ $(function() {
           */
         it('the menu changes visibility when the menu icon is clicked',function() {
             menuEl.click();
-            expect(bodyEl.className).not.toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(false);
             menuEl.click();
-            expect(bodyEl.className).toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
          });
     });
 
@@ -82,11 +81,9 @@ $(function() {
         const entryEl = document.querySelector('.feed .entry-link .entry');
 
         beforeEach(function(done) {
-            setTimeout(function() {
               loadFeed(1, function() {
                 done();
               });
-            }, 100);
           });
 
         it('should be at least a single .entry element within the .feed container',function(done) {          
@@ -107,17 +104,15 @@ $(function() {
         let secondFeedLoad;
 
         beforeEach(function(done) {
-            setTimeout(function() {
-              loadFeed(0, function() {
-                firstFeedLoad = document.querySelector('.feed');
-                done();
-              });
+                        
+            loadFeed(0, function(){
+                firstFeedLoad = document.querySelector('.feed').innerHTML;
 
-              loadFeed(1, function() {
-                secondFeedLoad = document.querySelector('.feed');
-                done();
-              });
-            }, 100);
+                loadFeed(1, function(){
+                    secondFeedLoad = document.querySelector('.feed').innerHTML;
+                    done();
+                });
+            });
           });
 
         it('loadFeed() should actually change the content', function(done){
